@@ -1,6 +1,8 @@
 rm(list=ls())
 #Import and prepare the data
-setwd("C:/Mason/Course/DAEN 690/Mapping")
+#set working directory
+#setwd("C:/Mason/Course/DAEN 690/Mapping")
+#read csv
 df=read.csv("crs_arr.csv")
 df$CRS_ARR_DATETIME_EST=as.POSIXlt(df$CRS_ARR_DATETIME_EST,tz="EST")
 df$wday=df$CRS_ARR_DATETIME_EST$wday
@@ -17,7 +19,7 @@ tags=c("LAX","JFK","ORD","DEN","IAH","PHX","SEA","DFW","CLT","BWI","DCA","IAD","
 airport$Code %in% tags
 
 
-
+#import libraries for use
 library(ggplot2)
 library(dyplr)
 
