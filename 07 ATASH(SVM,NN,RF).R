@@ -1,6 +1,8 @@
 rm(list=ls())
 # Importing the required datasets
-setwd("C:/Mason/Course/DAEN 690/Code/Modeling")
+#set working directory
+#setwd("C:/Mason/Course/DAEN 690/Code/Modeling")
+#read csv
 m=read.csv("Processed_Data.csv")
 # Adding Canceled Flights
 m$Count=m$Cancel+m$Count
@@ -62,6 +64,7 @@ cancelcumper=cancelcum/countcum
 
 
 # Adding Temporal Dummy Variables
+#import libraries
 library(dplyr)
 n=m %>%
   group_by(ACT_ARR_DATE) %>%
@@ -705,6 +708,7 @@ t.test(nemoodar$C24[nemoodar$missed!=2],nemoodar$C24[nemoodar$missed==2])
 #############
 #############
 #Importing and preparing
+#read csv
 EQ=read.csv("EQ.csv")
 EQ=EQ[,-1]
 colnames(EQ)=c("Airline","Date","Noon","Midnight")
@@ -760,7 +764,7 @@ ggplot(data=EQ[EQ$Airline=="WN",], aes(x=Noon,y=Midnight))+
 
 
 
-#### Finding coloration of EI with delay class
+#### Finding correlation of EI with delay class
 EQ.m=EQ[EQ$Airline=="AA"|EQ$Airline=="UA"|EQ$Airline=="DL"|EQ$Airline=="WN",c(1,2,3,7)]
 library(reshape2)
 EQ.wide <- dcast(EQ.m, Date+Class ~Airline, value.var="Noon")
@@ -771,7 +775,7 @@ EQ.wide <- dcast(EQ.m, Date+Class ~Airline, value.var="Noon")
 library(hrbrthemes)
 library(GGally)
 library(viridis)
-## Plot parallel coordinate to check if there's a pattern
+## Plot parallel coordinate to check if there is a pattern
 ggparcoord(EQ.wide,
            columns = 3:6, groupColumn = 2, order = "anyClass",
            scale="uniminmax",
@@ -788,14 +792,14 @@ ggparcoord(EQ.wide,
 
 
 
-########Check the corrolation of EI and delay classes
+########Check the correlation of EI and delay classes
 cor=EQ.wide[,-1]
 cor$Normal[cor$Class=="Normal"]=1
 cor$'Semi-Normal'[cor$Class=="Semi-Normal"]=1
 cor$Abnormal[cor$Class=="Abnormal"]=1
 cor[is.na(cor)]=0
 
-# Plot the corrolation matrix
+# Plot the correlation matrix
 library(corrplot)
 title <- "Correlation"
 SetoCorr = cor(cor[,-1])
