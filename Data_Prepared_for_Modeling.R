@@ -1,5 +1,7 @@
 # Import the raw data
-setwd("C:/Mason/Course/DAEN 690/Code/Modeling")
+#set working directory for grabbing file
+#setwd("C:/Mason/Course/DAEN 690/Code/Modeling")
+#read csv file
 df=read.csv("act_arr.csv")
 # add canceled flights
 cancel=read.csv("cancellations_dep.csv")
