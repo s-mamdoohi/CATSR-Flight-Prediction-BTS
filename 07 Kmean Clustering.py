@@ -1,3 +1,5 @@
+#This file is to cluster based on the end of the day delays
+#import libraries
 from __future__ import absolute_import, division, print_function, unicode_literals
 import tensorflow as tf
 import matplotlib as mpl
@@ -41,12 +43,13 @@ plt.xticks(range(0,9),range(1,10))
 plt.xlabel('Number of Clusters (K)')
 plt.ylabel('Sum of squared distances\n of samples to their\n closest cluster center')
 
+#scatterplot
 plt.scatter(X,np.zeros_like(X)-0.0000001,marker='.',c=labels.astype(np.float))
 plt.xlabel('Cumulative End of the Day Delay (min)')
 plt.yticks(range(0,0),range(0,0))
 
 
-
+#histogram
 plt.hist(X,density=True,bins=20)
 plt.xlabel('Cumulative End of the Day Delay (min)')
 plt.ylabel('density')
