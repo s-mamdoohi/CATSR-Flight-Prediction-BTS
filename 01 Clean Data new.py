@@ -1,3 +1,5 @@
+#This script converts the time zone
+#import libraries
 import pandas as pd
 import numpy as np
 import datetime as dt
@@ -8,6 +10,8 @@ import pytz
 from tqdm import tqdm
 import os
 
+
+#grabs the time zone of origin and destination
 def get_timezone_origin(city):
     geolocator = Nominatim(user_agent='CATSR',timeout=10)
     locfinder = RateLimiter(geolocator.geocode, min_delay_seconds=0)
@@ -144,7 +148,7 @@ data = data.dropna(subset=['ORIGIN_CITY_TIMEZONE','DEST_CITY_TIMEZONE'])
 
 data['DepTime'] = data['DepTime'].astype('int64')
 
-# cahnge data and time to Eastern Time
+# chage data and time to Eastern Time
 tqdm.pandas()
 data['CRS_DEP_DATETIME_EST'] = data.progress_apply(time_change_crs_dep,axis=1)
 data['ACT_DEP_DATETIME_EST'] = data.progress_apply(time_change_act_dep,axis=1)
@@ -199,6 +203,7 @@ act_dep = data[['ACT_DEP_DATETIME_EST','ACT_DEP_DATE','ACT_DEP_HOUR','Marketing_
 crs_arr = data[['CRS_ARR_DATETIME_EST','CRS_ARR_DATE','CRS_ARR_HOUR','Marketing_Airline_Network','Origin','OriginCityName','Dest','DestCityName','ArrDelayMinutes','DepDelayMinutes']]
 act_arr = data[['ACT_ARR_DATETIME_EST','ACT_ARR_DATE','ACT_ARR_HOUR','Marketing_Airline_Network','Origin','OriginCityName','Dest','DestCityName','ArrDelayMinutes','DepDelayMinutes']]
 
+#makes csv of each feature
 crs_dep.to_csv('crs_dep.csv')
 act_dep.to_csv('act_dep.csv')
 crs_arr.to_csv('crs_arr.csv')
