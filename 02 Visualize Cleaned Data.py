@@ -83,7 +83,3 @@ arr_delay.plot()
 plt.xlabel("CRS Departure Time",fontsize=12)
 plt.ylabel("Total Delay (minutes)",fontsize=12)
 plt.xticks(rotation='vertical')
-
-dataset = data.drop(columns=['Unnamed: 0','CRS_DATETIME_NEW'])
-#new cleaned csv
-dataset.to_csv('data_cleaned.csv')
