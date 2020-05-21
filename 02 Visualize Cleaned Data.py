@@ -1,5 +1,5 @@
 #This is the the THIRD FILE to run
-
+#import libraries
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,6 +7,7 @@ import matplotlib.ticker as ticker
 import datetime as dt
 import pytz
 
+#read csv files
 act_dep = pd.read_csv('act_dep.csv')
 act_arr = pd.read_csv('act_arr.csv')
 
@@ -84,4 +85,5 @@ plt.ylabel("Total Delay (minutes)",fontsize=12)
 plt.xticks(rotation='vertical')
 
 dataset = data.drop(columns=['Unnamed: 0','CRS_DATETIME_NEW'])
+#new cleaned csv
 dataset.to_csv('data_cleaned.csv')
