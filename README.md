@@ -70,14 +70,14 @@ This code was used for the data mapping done in R.
 Modeling:
 R:
 07 ATASH(SVM,NN,RF).R
-This is the code for the SVM, NN, RF analysis methods in R.
+This is the code for the SVM, NN, RF analysis methods in R. Also, this file contains Equity Index analysis.
 
 Python:
 06 LSTM Time Series.py
 This code was used to do a LSTM time series analysis using python.
 
 08 Kmean Clustering.py
-This code was used to perform Kmeans clustering analysis using python.
+This code was used to perform Kmeans clustering analysis using python showing that 3 was the best.
 
 09 LSTM Time Series (Categorical).py
 This code was used to conduct LSTM time series categorical analysis using python.
