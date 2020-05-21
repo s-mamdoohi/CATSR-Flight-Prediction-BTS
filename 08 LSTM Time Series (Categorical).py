@@ -1,4 +1,4 @@
-#Similar to the FOURTH SCRIPT to run
+#Similar to the SIXTH SCRIPT that ran
 #This is for categorical
 #import libraries
 from __future__ import absolute_import, division, print_function, unicode_literals
