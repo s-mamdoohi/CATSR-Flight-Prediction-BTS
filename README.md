@@ -74,11 +74,11 @@ This is the code for the SVM, NN, RF analysis methods in R.
 
 Python:
 06 LSTM Time Series.py
-This code was used to do a time series analysis looking the arrival and departure delays using python.
+This code was used to do a LSTM time series analysis using python.
 
 08 Kmean Clustering.py
 This code was used to perform Kmeans clustering analysis using python.
 
 09 LSTM Time Series (Categorical).py
-This code was used to conduct time series analysis with weekday arrival and departure delays with addition of Categorical analysis using python.
+This code was used to conduct LSTM time series categorical analysis using python.
 
