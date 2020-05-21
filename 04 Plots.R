@@ -72,6 +72,7 @@ par(mar=c(5, 4, 4, 2) + 0.1)
 
 
 ############# Plots of market shares of Airlines
+#read csv
 Airlines=read.csv("Airlines.csv")
 Airlines=Airlines[order(Airlines$IATA_CODE),]
 marketShare <- df %>% 
