@@ -1,6 +1,8 @@
+#import proper libraries
 import pandas as pd
 import zipfile
 import os
+
 
 zf = zipfile.ZipFile('Datasets 690.zip')
 df = {}
