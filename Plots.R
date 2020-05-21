@@ -1,8 +1,11 @@
 rm(list=ls())
 #Import and prepare the data
-setwd("C:/Mason/Course/DAEN 690/Code/Modeling")
+#set working directory
+#setwd("C:/Mason/Course/DAEN 690/Code/Modeling")
+#read csv
 df=read.csv("act_arr.csv")
 mydata=df[,-1]
+#import libraries
 library(dplyr)
 
 m=mydata %>%
