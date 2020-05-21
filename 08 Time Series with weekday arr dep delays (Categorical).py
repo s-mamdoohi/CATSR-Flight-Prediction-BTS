@@ -1,3 +1,6 @@
+#Similar to the FOURTH SCRIPT to run
+#This is for categorical
+#import libraries
 from __future__ import absolute_import, division, print_function, unicode_literals
 import tensorflow as tf
 from keras.utils.np_utils import to_categorical
@@ -58,9 +61,11 @@ df = df[df['ACT_ARR_DATE'] != '2019-03-10']
 # don't cahnge the seed so that we can compare the results with each other
 tf.random.set_seed(13)
 
+#definition for creating time steps
 def create_time_steps(length):
   return list(range(-length, 0))
 
+#definition for displaying plot
 def show_plot(plot_data, delta, title):
   labels = ['History', 'True Future', 'Model Prediction']
   marker = ['.-', 'rx', 'go']
@@ -83,6 +88,7 @@ def show_plot(plot_data, delta, title):
   plt.xlabel('Time-Step')
   return plt
 
+#definition for baseline
 def baseline(history):
   return np.mean(history)
 
@@ -95,6 +101,7 @@ features.head()
 
 dataset = features.values
 
+#definition for multivariate data
 def multivariate_data(dataset, target, start_index, end_index, history_size,
                       target_size, step, single_step=False):
     data = []
@@ -170,7 +177,7 @@ single_step_history = single_step_model.fit(train_data_single, epochs=EPOCHS,
                                             steps_per_epoch=EVALUATION_INTERVAL,
                                             validation_data=val_data_single,
                                             validation_steps=364/BATCH_SIZE)
-
+#definition for plotting train history
 def plot_train_history(history, title):
   loss = history.history['loss']
   val_loss = history.history['val_loss']
@@ -191,6 +198,7 @@ def plot_train_history(history, title):
 plot_train_history(single_step_history,
                    'Single Step Training and validation loss')
 
+#confusion matrix
 #end-of-the-day-cumulative-delay prediction accuracy
 print(single_step_model.evaluate(x_val_single,y_val_single))
 
