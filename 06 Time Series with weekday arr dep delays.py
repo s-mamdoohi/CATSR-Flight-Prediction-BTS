@@ -1,3 +1,5 @@
+#This is the FOURTH FILE to run
+#import libraries
 from __future__ import absolute_import, division, print_function, unicode_literals
 import tensorflow as tf
 import matplotlib as mpl
@@ -53,12 +55,14 @@ df = df[df['ACT_ARR_DATE'] != '2018-03-11']
 df = df[df['ACT_ARR_DATE'] != '2019-03-10']
 
 
-# don't cahnge the seed so that we can compare the results with each other
+# don't change the seed so that we can compare the results with each other
 tf.random.set_seed(13)
 
+#creating time steps
 def create_time_steps(length):
   return list(range(-length, 0))
 
+#def for plotting
 def show_plot(plot_data, delta, title):
   labels = ['History', 'True Future', 'Model Prediction']
   marker = ['.-', 'rx', 'go']
@@ -81,6 +85,7 @@ def show_plot(plot_data, delta, title):
   plt.xlabel('Time-Step')
   return plt
 
+#def for baseline
 def baseline(history):
   return np.mean(history)
 
@@ -117,39 +122,8 @@ def multivariate_data(dataset, target, start_index, end_index, history_size,
       labels.append(target[i:i+target_size])
 
   return np.array(data), np.array(labels)
-'''
-x_train_single, y_train_single = multivariate_data(dataset, dataset[:, 0], 0,
-                                                   TRAIN_SPLIT, past_history,
-                                                   future_target, STEP,
-                                                   single_step=True)
-x_val_single, y_val_single = multivariate_data(dataset, dataset[:, 0],
-                                               TRAIN_SPLIT, None, past_history,
-                                               future_target, STEP,
-                                               single_step=True)
 
-print ('Single window of past history : {}'.format(x_train_single[0].shape))
-
-train_data_single = tf.data.Dataset.from_tensor_slices((x_train_single, y_train_single))
-train_data_single = train_data_single.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
-
-val_data_single = tf.data.Dataset.from_tensor_slices((x_val_single, y_val_single))
-val_data_single = val_data_single.batch(BATCH_SIZE).repeat()
-
-single_step_model = tf.keras.models.Sequential()
-single_step_model.add(tf.keras.layers.LSTM(32,
-                                           input_shape=x_train_single.shape[-2:]))
-single_step_model.add(tf.keras.layers.Dense(1))
-
-single_step_model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
-
-for x, y in val_data_single.take(1):
-  print(single_step_model.predict(x).shape)
-  
-single_step_history = single_step_model.fit(train_data_single, epochs=EPOCHS,
-                                            steps_per_epoch=EVALUATION_INTERVAL,
-                                            validation_data=val_data_single,
-                                            validation_steps=364/BATCH_SIZE)
-'''
+#def for plotting the error
 def plot_train_history(history, title):
   loss = history.history['loss']
   val_loss = history.history['val_loss']
@@ -166,16 +140,8 @@ def plot_train_history(history, title):
   plt.legend()
 
   plt.show()
-'''
-plot_train_history(single_step_history,
-                   'Single Step Training and validation loss')
 
-for x, y in val_data_single.take(5):
-  plot = show_plot([x[0][:, 0].numpy(), y[0].numpy(),
-                    single_step_model.predict(x)[0]], future_target,
-                   'Single Step Prediction')
-  plot.show()
-'''
+#preparing the dataset
 x_train_multi, y_train_multi = multivariate_data(dataset, dataset[:, 0], 0,
                                                  TRAIN_SPLIT, past_history,
                                                  future_target, STEP)
@@ -186,13 +152,15 @@ x_val_multi, y_val_multi = multivariate_data(dataset, dataset[:, 0],
 print ('Single window of past history : {}'.format(x_train_multi[0].shape))
 print ('Target delay to predict : {}'.format(y_train_multi[0].shape))
 
-
+#train
 train_data_multi = tf.data.Dataset.from_tensor_slices((x_train_multi, y_train_multi))
 train_data_multi = train_data_multi.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
 
+#validation
 val_data_multi = tf.data.Dataset.from_tensor_slices((x_val_multi, y_val_multi))
 val_data_multi = val_data_multi.batch(BATCH_SIZE).repeat()
 
+#definition for multi step plot
 def multi_step_plot(history, true_future, prediction):
   #plt.figure(figsize=(12, 6))
   plt.figure(figsize=(8, 6))
@@ -213,7 +181,8 @@ def multi_step_plot(history, true_future, prediction):
   
 for x, y in train_data_multi.take(1):
   multi_step_plot(x[0], y[0], np.array([0]))
-  
+
+#Building the LSTM model
 multi_step_model = tf.keras.models.Sequential()
 multi_step_model.add(tf.keras.layers.LSTM(32,
                                           return_sequences=True,
@@ -236,7 +205,7 @@ multi_step_history = multi_step_model.fit(train_data_multi, epochs=EPOCHS,
 plot_train_history(multi_step_history, 'Multi-Step Training and validation loss')
 
 # show sample results
-
+#rmse
 rmse = np.sqrt(multi_step_model.evaluate(x_val_multi,y_val_multi))
 print(rmse)
 print(rmse*data_std[0])
@@ -244,16 +213,6 @@ print(rmse*data_std[0])
 val_data_multi = tf.data.Dataset.from_tensor_slices((x_val_multi, y_val_multi))
 val_data_multi = val_data_multi.batch(1)
 
+#plotting the sample predictions
 for x, y in val_data_multi.take(1):
   multi_step_plot(x[0], y[0], multi_step_model.predict(x)[0])
-
-multi_step_plot(x_val_multi[335], y_val_multi[335], multi_step_model.predict(x_val_multi)[335])
-
-'''
-#end-of-the-day-cumulative-delay prediction accuracy
-acc = 0
-for x, y in val_data_multi.take(-1):
-    if (multi_step_model.predict(x)[0][-1]*data_std[0]+data_mean[0] >= (1-accuracy_threshold) * (y[0][-1]*data_std[0]+data_mean[0])) and (multi_step_model.predict(x)[0][-1]*data_std[0]+data_mean[0] <= (1+accuracy_threshold) * (y[0][-1]*data_std[0]+data_mean[0])):
-        acc += 1
-print(acc/x_val_multi.shape[0])
-'''
