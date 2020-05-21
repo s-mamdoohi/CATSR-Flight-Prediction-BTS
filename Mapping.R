@@ -11,6 +11,7 @@ df$day=wday(df$wday,label=T)
 del=read.csv("act_arr.csv")
 
 # Impoart data of airports
+#read csv
 airport=read.csv("Airport.csv")
 airport=airport[airport[,5]=="USA",c(2,16,15)]
 colnames(airport)=c("Code","lon","lat")
@@ -23,7 +24,7 @@ airport$Code %in% tags
 library(ggplot2)
 library(dyplr)
 
-#### polts the delays
+#### plots the delays
 class(del$ACT_ARR_DATETIME_EST)
 del$ACT_ARR_DATETIME_EST=as.character(del$ACT_ARR_DATETIME_EST)
 jan=del[grep("2019-01-", del$ACT_ARR_DATETIME_EST),]
